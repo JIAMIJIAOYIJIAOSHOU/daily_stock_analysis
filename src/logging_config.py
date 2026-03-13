@@ -77,17 +77,18 @@ def setup_logging(
     else:
         level = logging.DEBUG if debug else logging.INFO
 
-    # 创建日志目录
-   import os
+   # --- 请确保以下代码在 setup_logging 函数内部的缩进正确 ---
+    import os
+    from pathlib import Path
 
-# 检查是否在 Vercel 环境下，如果是则使用 /tmp 目录
-if os.environ.get('VERCEL'):
-    log_path = Path("/tmp/logs")
-else:
-    log_path = Path("logs")
+    # 检查是否在 Vercel 环境下
+    if os.environ.get('VERCEL'):
+        log_path = Path("/tmp/logs")
+    else:
+        log_path = Path("logs")
 
-log_path.mkdir(parents=True, exist_ok=True)
-
+    log_path.mkdir(parents=True, exist_ok=True)
+    # --- 替换结束 ---
     # 日志文件路径（按日期分文件）
     today_str = datetime.now().strftime('%Y%m%d')
     log_file = log_path / f"{log_prefix}_{today_str}.log"
