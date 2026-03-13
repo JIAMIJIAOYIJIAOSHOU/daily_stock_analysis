@@ -2,7 +2,5 @@ flask
 flask-cors
 tushare
 openai
-pandas
 requests
 python-dotenv
-litellm==1.40.0
