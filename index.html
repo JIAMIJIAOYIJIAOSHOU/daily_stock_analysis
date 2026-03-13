@@ -2,32 +2,48 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>加密教授 - 每日A股智能分析</title>
+    <title>加密教授 | AI 股票策略终端</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #000; color: #d4af37; font-family: sans-serif; text-align: center; padding-top: 50px; }
-        .container { border: 1px solid #d4af37; display: inline-block; padding: 20px; border-radius: 10px; }
-        button { background: #d4af37; color: #000; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; }
-        #result { margin-top: 20px; white-space: pre-wrap; color: #fff; }
+        body { background-color: #0d1117; color: #e6edf3; }
+        .gold-border { border: 1px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
+        .gold-text { color: #d4af37; }
+        .btn-gold { background: linear-gradient(145deg, #d4af37, #b8860b); color: #000; transition: 0.3s; }
+        .btn-gold:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>📊 每日股票 AI 自动化分析</h1>
-        <button onclick="startAnalysis()">开始实盘分析</button>
-        <div id="result">点击按钮，调取 Gemini 分析结果...</div>
+<body class="p-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="gold-border rounded-xl p-6 bg-gray-900 mb-8 text-center">
+            <h1 class="text-3xl font-bold gold-text mb-4">📊 AI 智能实盘分析系统</h1>
+            <p class="text-gray-400 mb-6">集成 Tushare 行情接口 & Gemini AI 深度决策</p>
+            <button onclick="runAnalysis()" class="btn-gold px-8 py-3 rounded-full font-black text-lg">
+                开始分析当日行情
+            </button>
+        </div>
+        <div id="displayArea" class="hidden gold-border rounded-lg p-6 bg-black min-h-[300px]">
+            <div id="loading" class="text-center gold-text text-xl">🚀 正在扫描 K 线结构并调用 AI 逻辑...</div>
+            <div id="content" class="whitespace-pre-wrap leading-relaxed text-gray-200"></div>
+        </div>
     </div>
 
     <script>
-        async function startAnalysis() {
-            const resDiv = document.getElementById('result');
-            resDiv.innerText = "正在调取 Tushare 数据并同步 Gemini AI...";
+        async function runAnalysis() {
+            const area = document.getElementById('displayArea');
+            const content = document.getElementById('content');
+            const loading = document.getElementById('loading');
+            
+            area.classList.remove('hidden');
+            loading.style.display = 'block';
+            content.innerText = '';
+
             try {
-                // 这里精准指向你已经通了的 API 接口
-                const response = await fetch('/api/app');
-                const data = await response.json();
-                resDiv.innerText = data.message; // 就会显示“分析完成”或者具体的 AI 内容
-            } catch (e) {
-                resDiv.innerText = "连接失败，请检查 Vercel 路由配置";
+                const res = await fetch('/api/app');
+                const data = await res.json();
+                loading.style.display = 'none';
+                content.innerText = data.message;
+            } catch (err) {
+                loading.innerText = "❌ 接口连接超时，请检查后端运行状态";
             }
         }
     </script>
