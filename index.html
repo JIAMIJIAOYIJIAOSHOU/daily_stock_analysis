@@ -1,13 +1,35 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>dsa-web</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>加密教授 - 每日A股智能分析</title>
+    <style>
+        body { background-color: #000; color: #d4af37; font-family: sans-serif; text-align: center; padding-top: 50px; }
+        .container { border: 1px solid #d4af37; display: inline-block; padding: 20px; border-radius: 10px; }
+        button { background: #d4af37; color: #000; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; }
+        #result { margin-top: 20px; white-space: pre-wrap; color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 每日股票 AI 自动化分析</h1>
+        <button onclick="startAnalysis()">开始实盘分析</button>
+        <div id="result">点击按钮，调取 Gemini 分析结果...</div>
+    </div>
+
+    <script>
+        async function startAnalysis() {
+            const resDiv = document.getElementById('result');
+            resDiv.innerText = "正在调取 Tushare 数据并同步 Gemini AI...";
+            try {
+                // 这里精准指向你已经通了的 API 接口
+                const response = await fetch('/api/app');
+                const data = await response.json();
+                resDiv.innerText = data.message; // 就会显示“分析完成”或者具体的 AI 内容
+            } catch (e) {
+                resDiv.innerText = "连接失败，请检查 Vercel 路由配置";
+            }
+        }
+    </script>
+</body>
 </html>
