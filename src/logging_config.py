@@ -78,8 +78,15 @@ def setup_logging(
         level = logging.DEBUG if debug else logging.INFO
 
     # 创建日志目录
-    log_path = Path(log_dir)
-    log_path.mkdir(parents=True, exist_ok=True)
+   import os
+
+# 检查是否在 Vercel 环境下，如果是则使用 /tmp 目录
+if os.environ.get('VERCEL'):
+    log_path = Path("/tmp/logs")
+else:
+    log_path = Path("logs")
+
+log_path.mkdir(parents=True, exist_ok=True)
 
     # 日志文件路径（按日期分文件）
     today_str = datetime.now().strftime('%Y%m%d')
