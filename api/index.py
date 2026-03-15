@@ -1,10 +1,16 @@
 from flask import Flask, render_template
+import os
 
-app = Flask(__name__, template_folder="../templates", static_folder="../static")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+app = Flask(
+    __name__,
+    template_folder=os.path.join(BASE_DIR, "templates"),
+    static_folder=os.path.join(BASE_DIR, "static")
+)
 
 @app.route("/")
 def home():
     return render_template("index.html")
 
-# Vercel 需要这个变量
 handler = app
