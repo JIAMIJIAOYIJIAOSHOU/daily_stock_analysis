@@ -1,6 +1,9 @@
 flask
 requests
 pandas
+numpy
 yfinance
 openai
 python-dotenv
+beautifulsoup4
+lxml
