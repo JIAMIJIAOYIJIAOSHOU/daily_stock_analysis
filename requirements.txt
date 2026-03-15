@@ -1,6 +1,5 @@
 flask
-flask-cors
-tushare
-openai
 requests
-python-dotenv
+pandas
+yfinance
+openai
