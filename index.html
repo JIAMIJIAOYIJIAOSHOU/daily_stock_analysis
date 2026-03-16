@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Stock Analysis</title>
+</head>
+
+<body>
+
+<h1>AI Daily Stock Analysis</h1>
+
+<button onclick="loadData()">Get Analysis</button>
+
+<pre id="result"></pre>
+
+<script>
+async function loadData(){
+
+const res = await fetch('/api/analysis');
+const data = await res.json();
+
+document.getElementById("result").innerText =
+JSON.stringify(data,null,2);
+
+}
+</script>
+
+</body>
+</html>
